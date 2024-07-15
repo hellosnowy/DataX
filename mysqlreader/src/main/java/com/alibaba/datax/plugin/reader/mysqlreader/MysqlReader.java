@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MysqlReader extends Reader {
 
-    private static final DataBaseType DATABASE_TYPE = DataBaseType.MySql;
+    private static final DataBaseType DATABASE_TYPE = DataBaseType.MySql8;
 
     public static class Job extends Reader.Job {
         private static final Logger LOG = LoggerFactory
