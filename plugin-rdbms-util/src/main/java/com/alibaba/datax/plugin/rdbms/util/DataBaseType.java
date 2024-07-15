@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
  * <p/>
  */
 public enum DataBaseType {
-    MySql("mysql", "com.mysql.jdbc.Driver"),
+    MySql("mysql", "com.mysql.jdbc.Driver"),    
+    MySql8("mysql", "com.mysql.cj.jdbc.Driver"),
     Tddl("mysql", "com.mysql.jdbc.Driver"),
     DRDS("drds", "com.mysql.jdbc.Driver"),
     Oracle("oracle", "oracle.jdbc.OracleDriver"),
