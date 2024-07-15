@@ -38,9 +38,9 @@ public class MysqlReader extends Reader {
         }
 
         @Override
-        public void preCheck(){
+        public void preCheck() {
             init();
-            this.commonRdbmsReaderJob.preCheck(this.originalConfig,DATABASE_TYPE);
+            this.commonRdbmsReaderJob.preCheck(this.originalConfig, DATABASE_TYPE);
 
         }
 
@@ -69,7 +69,7 @@ public class MysqlReader extends Reader {
         @Override
         public void init() {
             this.readerSliceConfig = super.getPluginJobConf();
-            this.commonRdbmsReaderTask = new CommonRdbmsReader.Task(DATABASE_TYPE,super.getTaskGroupId(), super.getTaskId());
+            this.commonRdbmsReaderTask = new CommonRdbmsReader.Task(DATABASE_TYPE, super.getTaskGroupId(), super.getTaskId());
             this.commonRdbmsReaderTask.init(this.readerSliceConfig);
 
         }

@@ -92,7 +92,7 @@ public final class WriterUtil {
         return renderedSqls;
     }
 
-    public static void executeSqls(Connection conn, List<String> sqls, String basicMessage,DataBaseType dataBaseType) {
+    public static void executeSqls(Connection conn, List<String> sqls, String basicMessage, DataBaseType dataBaseType) {
         Statement stmt = null;
         String currentSql = null;
         try {
@@ -102,7 +102,7 @@ public final class WriterUtil {
                 DBUtil.executeSqlWithoutResultSet(stmt, sql);
             }
         } catch (Exception e) {
-            throw RdbmsException.asQueryException(dataBaseType,e,currentSql,null,null);
+            throw RdbmsException.asQueryException(dataBaseType, e, currentSql, null, null);
         } finally {
             DBUtil.closeDBResources(null, stmt, null);
         }
@@ -120,8 +120,8 @@ public final class WriterUtil {
         // && writeMode.trim().toLowerCase().startsWith("replace")
         String writeDataSqlTemplate;
         if (forceUseUpdate ||
-                ((dataBaseType == DataBaseType.MySql || dataBaseType == DataBaseType.Tddl) && writeMode.trim().toLowerCase().startsWith("update"))
-                ) {
+                ((dataBaseType == DataBaseType.MySql || dataBaseType == DataBaseType.MySql8 || dataBaseType == DataBaseType.Tddl) && writeMode.trim().toLowerCase().startsWith("update"))
+        ) {
             //update只在mysql下使用
 
             writeDataSqlTemplate = new StringBuilder()
@@ -145,17 +145,17 @@ public final class WriterUtil {
         return writeDataSqlTemplate;
     }
 
-    public static String onDuplicateKeyUpdateString(List<String> columnHolders){
+    public static String onDuplicateKeyUpdateString(List<String> columnHolders) {
         if (columnHolders == null || columnHolders.size() < 1) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         sb.append(" ON DUPLICATE KEY UPDATE ");
         boolean first = true;
-        for(String column:columnHolders){
-            if(!first){
+        for (String column : columnHolders) {
+            if (!first) {
                 sb.append(",");
-            }else{
+            } else {
                 first = false;
             }
             sb.append(column);
@@ -180,11 +180,11 @@ public final class WriterUtil {
         if (null != renderedPreSqls && !renderedPreSqls.isEmpty()) {
             LOG.info("Begin to preCheck preSqls:[{}].",
                     StringUtils.join(renderedPreSqls, ";"));
-            for(String sql : renderedPreSqls) {
-                try{
+            for (String sql : renderedPreSqls) {
+                try {
                     DBUtil.sqlValid(sql, type);
-                }catch(ParserException e) {
-                    throw RdbmsException.asPreSQLParserException(type,e,sql);
+                } catch (ParserException e) {
+                    throw RdbmsException.asPreSQLParserException(type, e, sql);
                 }
             }
         }
@@ -203,11 +203,11 @@ public final class WriterUtil {
 
             LOG.info("Begin to preCheck postSqls:[{}].",
                     StringUtils.join(renderedPostSqls, ";"));
-            for(String sql : renderedPostSqls) {
-                try{
+            for (String sql : renderedPostSqls) {
+                try {
                     DBUtil.sqlValid(sql, type);
-                }catch(ParserException e){
-                    throw RdbmsException.asPostSQLParserException(type,e,sql);
+                } catch (ParserException e) {
+                    throw RdbmsException.asPostSQLParserException(type, e, sql);
                 }
 
             }

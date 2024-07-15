@@ -68,13 +68,13 @@ public final class RdbmsRangeSplitWrap {
             return result;
         }
     }
-    
+
     public static String wrapFirstLastPoint(String firstPoint, String lastPoint, String columnName,
-            String quote, DataBaseType dataBaseType) {
+                                            String quote, DataBaseType dataBaseType) {
         return String.format(" ((%s < %s%s%s) OR (%s%s%s < %s)) ", columnName, quote, quoteConstantValue(firstPoint, dataBaseType),
                 quote, quote, quoteConstantValue(lastPoint, dataBaseType), quote, columnName);
     }
-    
+
     public static String wrapFirstLastPoint(Long firstPoint, Long lastPoint, String columnName) {
         return wrapFirstLastPoint(firstPoint.toString(), lastPoint.toString(), columnName, "", null);
     }
@@ -82,14 +82,14 @@ public final class RdbmsRangeSplitWrap {
     public static String wrapFirstLastPoint(BigInteger firstPoint, BigInteger lastPoint, String columnName) {
         return wrapFirstLastPoint(firstPoint.toString(), lastPoint.toString(), columnName, "", null);
     }
-    
+
 
     private static String quoteConstantValue(String aString, DataBaseType dataBaseType) {
         if (null == dataBaseType) {
             return aString;
         }
 
-        if (dataBaseType.equals(DataBaseType.MySql)) {
+        if (dataBaseType.equals(DataBaseType.MySql) || dataBaseType.equals(DataBaseType.MySql8)) {
             return aString.replace("'", "''").replace("\\", "\\\\");
         } else if (dataBaseType.equals(DataBaseType.Oracle) || dataBaseType.equals(DataBaseType.SQLServer)) {
             return aString.replace("'", "''");

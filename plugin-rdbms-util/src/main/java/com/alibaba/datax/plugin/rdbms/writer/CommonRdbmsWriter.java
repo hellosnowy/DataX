@@ -12,7 +12,9 @@ import com.alibaba.datax.plugin.rdbms.util.DataBaseType;
 import com.alibaba.datax.plugin.rdbms.util.RdbmsException;
 import com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil;
 import com.alibaba.datax.plugin.rdbms.writer.util.WriterUtil;
+
 import java.util.concurrent.atomic.AtomicLong;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -536,7 +538,7 @@ public class CommonRdbmsWriter {
                 // warn: bit(1) -> Types.BIT 可使用setBoolean
                 // warn: bit(>1) -> Types.VARBINARY 可使用setBytes
                 case Types.BIT:
-                    if (this.dataBaseType == DataBaseType.MySql) {
+                    if (this.dataBaseType == DataBaseType.MySql || this.dataBaseType == DataBaseType.MySql8) {
                         preparedStatement.setBoolean(columnIndex + 1, column.asBoolean());
                     } else {
                         preparedStatement.setString(columnIndex + 1, column.asString());

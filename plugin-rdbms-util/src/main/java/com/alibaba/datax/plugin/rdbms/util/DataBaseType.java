@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * <p/>
  */
 public enum DataBaseType {
-    MySql("mysql", "com.mysql.jdbc.Driver"),    
+    MySql("mysql", "com.mysql.jdbc.Driver"),
     MySql8("mysql", "com.mysql.cj.jdbc.Driver"),
     Tddl("mysql", "com.mysql.jdbc.Driver"),
     DRDS("drds", "com.mysql.jdbc.Driver"),
@@ -19,8 +19,8 @@ public enum DataBaseType {
     PostgreSQL("postgresql", "org.postgresql.Driver"),
     RDBMS("rdbms", "com.alibaba.datax.plugin.rdbms.util.DataBaseType"),
     DB2("db2", "com.ibm.db2.jcc.DB2Driver"),
-    ADB("adb","com.mysql.jdbc.Driver"),
-    ADS("ads","com.mysql.jdbc.Driver"),
+    ADB("adb", "com.mysql.jdbc.Driver"),
+    ADS("ads", "com.mysql.jdbc.Driver"),
     ClickHouse("clickhouse", "ru.yandex.clickhouse.ClickHouseDriver"),
     KingbaseES("kingbasees", "com.kingbase8.Driver"),
     Oscar("oscar", "com.oscar.Driver"),
@@ -29,7 +29,7 @@ public enum DataBaseType {
     Sybase("sybase", "com.sybase.jdbc4.jdbc.SybDriver"),
     GaussDB("gaussdb", "org.opengauss.Driver"),
     Databend("databend", "com.databend.jdbc.DatabendDriver"),
-    Doris("doris","com.mysql.jdbc.Driver");
+    Doris("doris", "com.mysql.jdbc.Driver");
 
     private String typeName;
     private String driverClassName;
@@ -48,6 +48,7 @@ public enum DataBaseType {
         String suffix = null;
         switch (this) {
             case MySql:
+            case MySql8:
             case DRDS:
             case OceanBase:
                 suffix = "yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true";
@@ -91,6 +92,7 @@ public enum DataBaseType {
         String suffix = null;
         switch (this) {
             case MySql:
+            case MySql8:
                 suffix = "yearIsDateType=false&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&tinyInt1isBit=false";
                 if (jdbc.contains("?")) {
                     result = jdbc + "&" + suffix;
@@ -156,6 +158,7 @@ public enum DataBaseType {
 
         switch (this) {
             case MySql:
+            case MySql8:
             case Oracle:
                 if (splitPk.length() >= 2 && splitPk.startsWith("`") && splitPk.endsWith("`")) {
                     result = splitPk.substring(1, splitPk.length() - 1).toLowerCase();
@@ -186,6 +189,7 @@ public enum DataBaseType {
 
         switch (this) {
             case MySql:
+            case MySql8:
                 result = "`" + columnName.replace("`", "``") + "`";
                 break;
             case Oracle:
@@ -212,6 +216,7 @@ public enum DataBaseType {
 
         switch (this) {
             case MySql:
+            case MySql8:
                 result = "`" + tableName.replace("`", "``") + "`";
                 break;
             case Oracle:
@@ -252,6 +257,7 @@ public enum DataBaseType {
         }
         return null;
     }
+
     public String getTypeName() {
         return typeName;
     }
